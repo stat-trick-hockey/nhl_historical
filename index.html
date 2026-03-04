@@ -103,43 +103,66 @@
     position: sticky;
     top: 0;
     z-index: 100;
-    background: var(--deep);
-    border-bottom: 1px solid var(--border);
+    background: #0a0e14;
+    border-bottom: 2px solid var(--accent);
     padding: 0 60px;
     user-select: none;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.5);
   }
 
   .nav-trigger {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 14px 0;
+    gap: 14px;
+    padding: 16px 0;
     cursor: pointer;
-    width: fit-content;
+    width: 100%;
+    justify-content: space-between;
   }
 
-  .nav-trigger-label {
+  .nav-trigger-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .nav-trigger-badge {
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 1.5px;
+    font-size: 9px;
+    letter-spacing: 2px;
     text-transform: uppercase;
-    color: var(--accent);
-    font-weight: 600;
+    color: #0a0e14;
+    background: var(--accent);
+    padding: 3px 8px;
+    border-radius: 2px;
+    font-weight: 700;
+    flex-shrink: 0;
   }
 
   .nav-trigger-name {
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
+    font-size: 13px;
     letter-spacing: 1.5px;
     text-transform: uppercase;
-    color: var(--text);
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .nav-trigger-hint {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
 
   .nav-arrow {
-    width: 14px;
-    height: 14px;
-    color: var(--muted);
-    transition: transform 0.2s;
+    width: 16px;
+    height: 16px;
+    color: var(--accent);
+    transition: transform 0.25s cubic-bezier(0.4,0,0.2,1);
     flex-shrink: 0;
   }
 
@@ -150,51 +173,72 @@
   .nav-menu {
     display: none;
     position: absolute;
-    left: 60px;
-    right: 60px;
+    left: 0;
+    right: 0;
     background: #0d1117;
-    border: 1px solid var(--border);
-    border-top: none;
-    border-radius: 0 0 4px 4px;
+    border-bottom: 1px solid var(--border);
     z-index: 200;
-    padding: 8px 0;
-    columns: 2;
-    column-gap: 0;
+    padding: 12px 60px;
+    display: none;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.6);
   }
 
   .nav-dropdown.open .nav-menu {
-    display: block;
+    display: grid;
   }
 
   .nav-menu button {
-    display: block;
-    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
     background: transparent;
-    border: none;
+    border: 1px solid transparent;
     color: var(--muted);
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
+    font-size: 10px;
     letter-spacing: 1.2px;
     text-transform: uppercase;
-    padding: 10px 20px;
+    padding: 11px 14px;
     cursor: pointer;
     text-align: left;
     white-space: nowrap;
     transition: all 0.15s;
-    border-left: 2px solid transparent;
-    break-inside: avoid;
+    border-radius: 3px;
+  }
+
+  .nav-menu button::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.3;
+    flex-shrink: 0;
+    transition: opacity 0.15s;
   }
 
   .nav-menu button:hover {
     color: var(--accent);
-    background: rgba(255,255,255,0.03);
-    border-left-color: var(--border);
+    background: rgba(212,175,55,0.06);
+    border-color: rgba(212,175,55,0.2);
+  }
+
+  .nav-menu button:hover::before {
+    opacity: 1;
   }
 
   .nav-menu button.active {
     color: var(--accent);
-    border-left-color: var(--accent);
-    background: rgba(212,175,55,0.06);
+    background: rgba(212,175,55,0.1);
+    border-color: rgba(212,175,55,0.35);
+  }
+
+  .nav-menu button.active::before {
+    opacity: 1;
+    background: var(--accent);
+    box-shadow: 0 0 6px var(--accent);
   }
 
   /* Main layout */
@@ -661,9 +705,14 @@
 
 <div class="nav-dropdown" id="navDropdown">
   <div class="nav-trigger" onclick="toggleNav()">
-    <span class="nav-trigger-label">Section</span>
-    <span class="nav-trigger-name" id="navCurrentName">Scoring Eras</span>
-    <svg class="nav-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    <div class="nav-trigger-left">
+      <span class="nav-trigger-badge">Navigate</span>
+      <span class="nav-trigger-name" id="navCurrentName">Scoring Eras</span>
+    </div>
+    <div class="nav-trigger-hint">
+      <span>13 sections</span>
+      <svg class="nav-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
   </div>
   <div class="nav-menu" id="navMenu">
     <button class="active" onclick="showSection('scoring',this)">Scoring Eras</button>
